@@ -6,6 +6,8 @@ class User extends Model {
   public email!: string;
   public password!: string;
   public name!: string;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 User.init(
@@ -13,7 +15,7 @@ User.init(
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     email: { type: DataTypes.STRING, unique: true, allowNull: false },
     password: { type: DataTypes.STRING, allowNull: false },
-    name: { type: DataTypes.STRING },
+    name: { type: DataTypes.STRING, allowNull: true },
   },
   { sequelize, modelName: "user" }
 );
