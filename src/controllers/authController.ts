@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user";
+import jwt from "jsonwebtoken";
+
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
@@ -13,5 +15,25 @@ export const registerUser = async (req: Request, res: Response) => {
 };
 
 export const loginUser = async (req: Request, res: Response) => {
-  // Implémentation de la connexion (vérification de l'email et du mot de passe)
+  
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ where: { email } });
+    if (!user) {
+      res.status(401).json({ error: "Identifiants invalides" });
+      return;
+    }
+    if (password !== user.password) {
+      res.status(401).json({ error: "Identifiants invalides" });
+      return;
+    }
+    // Générer un token JWT
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
+
+    res.json({ token });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+
 };

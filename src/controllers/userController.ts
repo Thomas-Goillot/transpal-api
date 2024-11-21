@@ -4,10 +4,12 @@ import User from "../models/user";
 export const getUserProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByPk(req.params.userId);
+
     if (!user) {
       res.status(404).json({ error: "Utilisateur non trouvé" });
       return;
     }
+    
     res.json(user);
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
@@ -42,7 +44,6 @@ export const updateUserProfile = async (
 export const deleteUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findByPk(req.params.userId);
-    if (!user) res.status(404).json({ error: "Utilisateur non trouvé" });
 
     if (!user) {
       res.status(404).json({ error: "Utilisateur non trouvé" });

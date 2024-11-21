@@ -6,14 +6,21 @@ export const authenticate: RequestHandler = (req: Request, res: Response, next: 
 
   if (!token) {
     res.status(401).json({ error: "Accès non autorisé" });
+    return;
   }
 
   try {
-    /* const secret = process.env.JWT_SECRET || "default_secret";
-    const decoded = jwt.verify(token, secret);
-    req.user = decoded; */
+    const secret = process.env.JWT_SECRET || "default_secret";
+    const decoded = jwt.verify(token as string, secret);
+
+    if (typeof decoded === "string") {
+      res.status(401).json({ error: "Token invalide" });
+      return;
+    }
+
     next();
   } catch (error) {
     res.status(401).json({ error: "Token invalide ou expiré" });
+    return;
   }
 };
