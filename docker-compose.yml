@@ -2,7 +2,7 @@ version: '3.8'
 services:
   transpal-db:
     container_name: transpal-db
-    image: mysql:5.7
+    image: mysql/mysql-server:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
@@ -22,7 +22,6 @@ services:
     build: .
     command: npm run start
     volumes:
-      - .:/app
       - /app/node_modules
     ports:
       - "3030:3030"
