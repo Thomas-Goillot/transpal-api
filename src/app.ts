@@ -13,7 +13,7 @@ app.use(express.json());
 sequelize
   .sync()
   .then(() => console.log("Database connected"))
-  .catch((err) => {
+  .catch((err: { parent: any; }) => {
     console.error("Database connection error:", err)
     if (err.parent) {
       console.error("MySQL error:", err.parent)
