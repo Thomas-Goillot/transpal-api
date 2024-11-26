@@ -5,6 +5,9 @@ import accountRoutes from "./routes/accountRoutes";
 import paymentMethodRoutes from "./routes/paymentMethodRoutes";
 import transactionRoutes from "./routes/transactionRoutes";
 import userRoutes from "./routes/userRoutes";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
