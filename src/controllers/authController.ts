@@ -27,10 +27,9 @@ export const loginUser = async (req: Request, res: Response) => {
       res.status(401).json({ error: "Identifiants invalides" });
       return;
     }
-    // Générer un token JWT
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET as string, { expiresIn: "1h" });
 
-    res.json({ token });
+    res.json({ token, user });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Erreur serveur" });
