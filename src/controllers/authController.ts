@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/user";
 import jwt from "jsonwebtoken";
+import Account from "../models/account";
 
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -8,6 +9,7 @@ export const registerUser = async (req: Request, res: Response) => {
     const { email, password, name } = req.body;
     const hashedPassword = password;
     const user = await User.create({ email, password: hashedPassword, name });
+    await Account.create({ userId: user.id, balance: 0 });
     res.status(201).json(user);
   } catch (error) {
     res.status(400).json({ error: "Erreur lors de l'inscription" });

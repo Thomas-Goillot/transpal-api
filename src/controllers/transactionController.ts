@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Transaction from "../models/transaction";
 import Account from "../models/account";
+import { send } from "process";
 
 export const sendMoney = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -24,6 +25,9 @@ export const sendMoney = async (req: Request, res: Response): Promise<void> => {
       res.status(400).json({ error: "Solde insuffisant" });
     }
 
+    senderAccount.balance = Number(senderAccount.balance);
+    receiverAccount.balance = Number(receiverAccount.balance);
+
     senderAccount.balance -= amount;
     receiverAccount.balance += amount;
     await senderAccount.save();
@@ -34,6 +38,7 @@ export const sendMoney = async (req: Request, res: Response): Promise<void> => {
       receiverId,
       amount,
       currency,
+      type: "SEND",
     });
     res.status(201).json(transaction);
   } catch (error) {

@@ -8,6 +8,7 @@ class Transaction extends Model {
   public receiverId!: number;
   public amount!: number;
   public currency!: string;
+  public type!: "SEND" | "ADD_FUNDS" | "WITHDRAW";
 }
 
 Transaction.init(
@@ -15,6 +16,10 @@ Transaction.init(
     id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
     amount: { type: DataTypes.DECIMAL(15, 2), allowNull: false },
     currency: { type: DataTypes.STRING, allowNull: false, defaultValue: "USD" },
+    type: {
+      type: DataTypes.ENUM("SEND", "ADD_FUNDS", "WITHDRAW"),
+      allowNull: false,
+    },
   },
   { sequelize, modelName: "transaction" }
 );
