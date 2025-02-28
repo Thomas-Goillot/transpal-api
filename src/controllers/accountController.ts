@@ -12,6 +12,7 @@ export const getAccountBalance = async (
     });
     if (!account) {
       res.status(404).json({ error: "Compte non trouvé" });
+      return;
     }
 
     if (!account) {
