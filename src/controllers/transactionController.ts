@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Transaction from "../models/transaction";
 import Account from "../models/account";
+import { Op } from "sequelize";
 
 export const sendMoney = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -50,7 +51,12 @@ export const sendMoney = async (req: Request, res: Response): Promise<void> => {
 export const getTransactionHistory = async (req: Request, res: Response) => {
   try {
     const transactions = await Transaction.findAll({
-      where: { senderId: req.params.userId },
+      where: {
+      [Op.or]: [
+        { senderId: req.params.userId },
+        { receiverId: req.params.userId }
+      ]
+      }
     });
     res.json(transactions);
   } catch (error) {
