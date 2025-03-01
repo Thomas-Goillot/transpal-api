@@ -3,13 +3,14 @@ import PaymentMethod from "../models/paymentMethod";
 
 export const addPaymentMethod = async (req: Request, res: Response) => {
   try {
-    const { type, name, cardNumber, expiryDate } = req.body;
+    const { type, name, cardNumber, expiryDate, cvv } = req.body;
     const paymentMethod = await PaymentMethod.create({
       userId: req.params.userId,
       type,
       name,
       cardNumber,
       expiryDate,
+      cvv,
     });
     res.status(201).json(paymentMethod);
   } catch (error) {
